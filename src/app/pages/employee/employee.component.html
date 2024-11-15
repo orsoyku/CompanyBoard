@@ -1,0 +1,79 @@
+<div class="container mt-5">
+    <h2>Manage Employees for Company</h2>
+    <!-- Employee Form -->
+    <div class="mb-3">
+      <form [formGroup]="employeeForm" (ngSubmit)="selectedEmployee ? updateEmployee() : addEmployee()">
+        <div class="mb-3">
+            <label for="companySelect" class="form-label">Select Company</label>
+            <select formControlName="companyId" id="companySelect" class="form-select" (change)="onCompanyChange($event)">
+              <option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</option>
+            </select>
+          </div>
+        <div class="mb-3">
+          <input type="text" class="form-control" formControlName="name" placeholder="Enter employee name" required />
+          <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">
+            <small *ngIf="employeeForm.get('name')?.errors?.['required']">Name is required</small>
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <input type="text" class="form-control" formControlName="position" placeholder="Enter employee position" required />
+          <div *ngIf="employeeForm.get('position')?.invalid && employeeForm.get('position')?.touched">
+            <small *ngIf="employeeForm.get('position')?.errors?.['required']">Position is required</small>
+          </div>
+        </div>
+  
+        <button type="submit" class="btn btn-primary mt-2" [disabled]="employeeForm.invalid">
+          {{ selectedEmployee ? 'Update Employee' : 'Add Employee' }}
+        </button>
+      </form>
+    </div>
+  
+    <!-- Employees List -->
+    <div *ngIf="employees.length === 0">
+      <p>No employees found for this company. Please add employees.</p>
+    </div>
+    <table class="table table-bordered mt-4" *ngIf="employees.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.id }}</td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.position }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="editEmployee(employee)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Edit Employee Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit Employee</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="employeeForm">
+              <div *ngIf="selectedEmployee">
+                <input type="text" class="form-control" formControlName="name" placeholder="Employee Name" />
+                <input type="text" class="form-control mt-3" formControlName="position" placeholder="Employee Position" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="updateEmployee()" data-bs-dismiss="modal">Save Changes</button>
+          </div>
+        </div>
+  

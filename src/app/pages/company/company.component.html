@@ -1,0 +1,103 @@
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)" 
+  size="medium" 
+  color="#fff" 
+  type="ball-scale-multiple"
+  [fullScreen]="true">
+</ngx-spinner>
+
+<div class="container mt-5">
+  <h2>Companies</h2>
+
+  <!-- New Company Form -->
+  <div class="mb-3">
+    <form [formGroup]="companyForm" (ngSubmit)="selectedCompany ? updateCompany() : addCompany()">
+      <div class="mb-3">
+        <input 
+          type="text" 
+          class="form-control" 
+          formControlName="name"
+          placeholder="Enter new company name" 
+          required 
+        />
+        <div *ngIf="companyForm.get('name')?.invalid && companyForm.get('name')?.touched">
+          <small *ngIf="companyForm.get('name')?.errors?.['required']">Name is required</small>
+          <small *ngIf="companyForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-2" [disabled]="companyForm.invalid">
+        {{ selectedCompany ? 'Update Company' : 'Add Company' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Companies List -->
+  <div *ngIf="companies.length === 0; else companiesList">
+    <div class="alert alert-info" role="alert">
+        No company found..
+      </div>
+  </div>
+
+  <ng-template #companiesList>
+    <table class="table table-bordered mt-4">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Company Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let company of companies">
+          <td>{{ company.id }}</td>
+          <td>{{ company.name }}</td>
+          <td>
+            <button 
+              class="btn btn-warning btn-sm" 
+              (click)="editCompany(company)" 
+              data-bs-toggle="modal"
+              data-bs-target="#editModal">
+              Edit
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteCompany(company.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+
+  <!-- Edit Company Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Company</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="companyForm">
+            <div *ngIf="selectedCompany">
+              <input 
+                type="text" 
+                class="form-control" 
+                formControlName="name" 
+                placeholder="Company Name" 
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            (click)="updateCompany()" 
+            data-bs-dismiss="modal">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

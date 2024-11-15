@@ -1,0 +1,21 @@
+<div class="login-container">
+  <div class="login-left">
+    <h2>Login! 👋</h2>
+    <p>How do I get started?</p>
+
+    <button class="btn btn-google" (click)="signInWithGoogle()" [disabled]="isLoading">
+      <span *ngIf="isLoading" class="loading-spinner"></span>
+      Sign in with Google
+    </button>
+    
+    <button class="btn btn-apple" [disabled]="isLoading" (click)="signInWithApple()">
+      Sign in with Apple
+    </button>
+    <div *ngIf="errorMessage" class="mt-3  alert alert-danger" role="alert">
+      {{errorMessage }}
+    </div>
+    <div *ngIf="showInfo" class="mt-3  alert alert-info" role="alert">
+      will be available soon!
+    </div>
+  </div>
+</div>

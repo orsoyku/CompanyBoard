@@ -1,0 +1,34 @@
+<div class="container mt-4">
+    <!-- Tab Header -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a
+          class="nav-link"
+          [class.active]="selectedTab === 'company'"
+          (click)="selectTab('company')"
+          href="javascript:void(0)"
+          >Company</a
+        >
+      </li>
+      <li class="nav-item" role="presentation">
+        <a
+          class="nav-link"
+          [class.active]="selectedTab === 'employee'"
+          (click)="selectTab('employee')"
+          href="javascript:void(0)"
+          >Employee</a
+        >
+      </li>
+    </ul>
+  
+    <!-- Tab Content -->
+    <div class="tab-content mt-3">
+      <div *ngIf="selectedTab === 'company'" class="tab-pane fade show active">
+        <app-company></app-company>
+      </div>
+      <div *ngIf="selectedTab === 'employee'" class="tab-pane fade show active">
+        <app-employee></app-employee>
+      </div>
+    </div>
+  </div>
+  
