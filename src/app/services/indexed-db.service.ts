@@ -28,19 +28,12 @@ export class IndexedDbService {
           const companyStore = db.createObjectStore('companies', { keyPath: 'id' });
           companyStore.transaction.oncomplete = () => {
             const companyTransaction = db.transaction('companies', 'readwrite').objectStore('companies');
+            // for testing
             companyTransaction.add({ id: 1, name: 'Company A' });
             companyTransaction.add({ id: 2, name: 'Company B' });
           };
         }
 
-        // if (!db.objectStoreNames.contains('employees')) {
-        //   const employeeStore = db.createObjectStore('employees', { keyPath: 'id' });
-        //   employeeStore.transaction.oncomplete = () => {
-        //     const employeeTransaction = db.transaction('employees', 'readwrite').objectStore('employees');
-        //     employeeTransaction.add({ id: 1, name: 'Employee 1', companyId: 1 });
-        //     employeeTransaction.add({ id: 2, name: 'Employee 2', companyId: 2 });
-        //   };
-        // }
         if (!db.objectStoreNames.contains('employees')) {
           const employeeStore = db.createObjectStore('employees', { keyPath: 'id' });
           
@@ -48,6 +41,7 @@ export class IndexedDbService {
   
           employeeStore.transaction.oncomplete = () => {
             const employeeTransaction = db.transaction('employees', 'readwrite').objectStore('employees');
+            // for testing
             employeeTransaction.add({ id: 1, name: 'Employee 1', companyId: 1 });
             employeeTransaction.add({ id: 2, name: 'Employee 2', companyId: 2 });
           };
