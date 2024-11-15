@@ -35,13 +35,11 @@ export class LoginComponent {
             this.authService.login(user.idToken);
             return this.router.navigate(['/']).then(() => user);
           } else {
-            debugger
             this.errorMessage = 'Google giriş başarısız oldu. Lütfen tekrar deneyin.';
             return of(null);
           }
         }),
         catchError((error) => {
-          debugger
           this.errorMessage = 'Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.';
           return of(null);
         })

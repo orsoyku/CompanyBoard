@@ -10,7 +10,6 @@ export class AuthService {
   constructor() {}
 
   login(token: string): void {
-    debugger
     this.isAuthenticated = true;
     this.userToken = token;
   }
